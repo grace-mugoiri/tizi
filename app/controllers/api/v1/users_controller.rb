@@ -33,9 +33,9 @@ class Api::V1::UsersController < ApplicationController
 		@user = User.find(params[:id])
 		if @user
 			@user.destroy
-			render json: {message: 'Deleted'}, status 200
+			render json: {message: 'Deleted'}, status: 200
 		else
-			render json: {error: 'Unable to delete User!'}, status 400
+			render json: {error: 'Unable to delete User!'}, status: 400
 		end
 	end
 
@@ -44,5 +44,5 @@ class Api::V1::UsersController < ApplicationController
 	def user_params
 		paramsrequire(:user).permit(:name, :phoneNumber)
 	end
-	
+
 end

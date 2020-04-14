@@ -34,6 +34,8 @@ class Api::V1::AppointmentsController < ApplicationController
 			render json: {error: 'Unable to delete !'}, status 400
 		end
 	end
+	
+	private
 
 	def appoint_params
 		params.require(:appointment).permit(:date, :time, :instructor, :exercise)
