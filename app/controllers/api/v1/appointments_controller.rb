@@ -19,6 +19,7 @@ class Api::V1::AppointmentsController < ApplicationController
 	end
 
 	def update
+		@appointment = Appointment.find(params[:id])
 		if @appointment
 			@appointment.update(appoint_params)
 			render json: {message: 'Success'}, status: 200

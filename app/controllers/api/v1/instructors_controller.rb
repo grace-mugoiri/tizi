@@ -19,6 +19,7 @@ class Api::V1::InstructorsController < ApplicationController
 	end
 
 	def update
+		@instructor = Instructor.find(params[:id])
 		if @instructor
 			@instructor.update(instructor_params)
 			render json: {message: 'Success'}, status: 200
