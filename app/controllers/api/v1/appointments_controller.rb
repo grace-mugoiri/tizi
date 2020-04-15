@@ -1,5 +1,5 @@
 class Api::V1::AppointmentsController < ApplicationController
-	
+
 	def index
 		@appointments = Appointment.all
 		render json: @appointments
@@ -14,7 +14,7 @@ class Api::V1::AppointmentsController < ApplicationController
 		 if @appointment.save
 			render json: @appointment
 		 else
-			render error: { error: 'Unable to create'}, status: 400
+			render json: { error: 'Unable to create' }, status: 400
 		 end
 	end
 
@@ -39,7 +39,7 @@ class Api::V1::AppointmentsController < ApplicationController
 	private
 
 	def appoint_params
-		params.require(:appointment).permit(:date, :time, :instructor, :exercises)
+		params.require(:appointment).permit(:date, :time, :exercises, :instructor_id, :user_id)
 	end
 
 end
