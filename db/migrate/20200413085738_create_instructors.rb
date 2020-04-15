@@ -3,9 +3,10 @@ class CreateInstructors < ActiveRecord::Migration[6.0]
     create_table :instructors do |t|
       t.string :name
       t.string :experience
-      t.string :availability
+			t.string :availability
 
       t.timestamps
     end
   end
 end
+

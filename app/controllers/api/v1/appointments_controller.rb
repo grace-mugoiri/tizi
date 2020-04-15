@@ -1,4 +1,5 @@
 class Api::V1::AppointmentsController < ApplicationController
+	
 	def index
 		@appointments = Appointment.all
 		render json: @appointments
@@ -29,16 +30,16 @@ class Api::V1::AppointmentsController < ApplicationController
 	def destroy
 		if @appointment
 			@appointment.destroy
-			render json: {message: 'Deleted'}, status 200
+			render json: {message: 'Deleted'}, status: 200
 		else
-			render json: {error: 'Unable to delete !'}, status 400
+			render json: {error: 'Unable to delete !'}, status: 400
 		end
 	end
-	
+
 	private
 
 	def appoint_params
-		params.require(:appointment).permit(:date, :time, :instructor, :exercise)
+		params.require(:appointment).permit(:date, :time, :instructor, :exercises)
 	end
 
 end

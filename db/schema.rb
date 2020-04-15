@@ -15,10 +15,13 @@ ActiveRecord::Schema.define(version: 2020_04_13_085806) do
   create_table "appointments", force: :cascade do |t|
     t.string "date"
     t.string "time"
-    t.string "instructor"
+    t.integer "instructor_id"
+    t.integer "user_id"
     t.string "exercises"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["instructor_id"], name: "index_appointments_on_instructor_id"
+    t.index ["user_id"], name: "index_appointments_on_user_id"
   end
 
   create_table "instructors", force: :cascade do |t|
