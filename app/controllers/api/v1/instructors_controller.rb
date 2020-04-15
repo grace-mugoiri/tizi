@@ -28,9 +28,10 @@ class Api::V1::InstructorsController < ApplicationController
 	end
 
 	def destroy
+		@instructor = Instructor.find(params[:id])
 		if @instructor
 			@instructor.destroy
-			render json: {message: 'Deleeted'}, status: 200
+			render json: {message: 'Deleted'}, status: 200
 		else
 			render json: { error: 'Unable to delete instructor'}, status: 400
 		end
@@ -41,5 +42,5 @@ class Api::V1::InstructorsController < ApplicationController
 	def instructor_params
 		params.require(:instructor).permit(:name, :experience, :availability)
 	end
-	
+
 end

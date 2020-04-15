@@ -28,6 +28,7 @@ class Api::V1::AppointmentsController < ApplicationController
 	end
 
 	def destroy
+		@appointment = Appointment.find(params[:id])
 		if @appointment
 			@appointment.destroy
 			render json: {message: 'Deleted'}, status: 200
