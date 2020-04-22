@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 		namespace :v1 do
 			resources :appointments
 			resources :instructors
-			resources :users
+			resources :users, only: [:create, :show, :index]
 		end
 	end
 end
