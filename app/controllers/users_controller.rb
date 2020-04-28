@@ -5,6 +5,19 @@ class Api::V1::UsersController < ApplicationController
 		render json: @users
 	end
 
+	def login
+		@user = User.find_by(name: params[:name])
+		if @user
+			if@user.authenticate(params[:name])
+				render json: @user, status: :accepted
+			else
+				render json: @user.errors, status: :unauthorized
+			end
+		else
+			render json: @user, status: :not_found
+		end
+	end
+
 	def show
 		@user = User.find(params[:id])
 		render json: @user
