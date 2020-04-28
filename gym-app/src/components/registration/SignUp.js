@@ -3,7 +3,7 @@ import axios from 'axios'
 
 class SignUp extends Component {
   constructor(props) {
-    super(props);
+		super(props);
     this.state = {
       name: '',
       phoneNumber: '',
@@ -23,10 +23,10 @@ handleSubmit = (event) => {
       name: name,
       phoneNumber: phoneNumber
     }
-axios.post('http://localhost:3000/api/v1/users', {user}, {withCredentials: true})
+		axios.post('http://localhost:3000/api/v1/users', {user}, {withCredentials: true})
     .then(response => {
       if (response.data.status === 'created') {
-        this.props.handleLogin(response.data)
+        this.props.handleSubmit(response.data)
         this.redirect()
       } else {
         this.setState({
@@ -35,9 +35,10 @@ axios.post('http://localhost:3000/api/v1/users', {user}, {withCredentials: true}
       }
     })
     .catch(error => console.log('api errors:', error))
-  };
+};
+
 redirect = () => {
-    this.props.history.push('/')
+    this.props.history.push('/login')
   }
 handleErrors = () => {
     return (
@@ -59,17 +60,17 @@ return (
             type="text"
             name="name"
             value={name}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
           />
           <input
             placeholder="phoneNumber"
             type="text"
             name="phoneNumber"
             value={phoneNumber}
-            onChange={this.handleChange}
+            onChange={this.handleChange.bind(this)}
           />
 
-          <button placeholder="submit" type="submit">
+			<button placeholder="submit" type="submit">
             Sign Up
           </button>
 
