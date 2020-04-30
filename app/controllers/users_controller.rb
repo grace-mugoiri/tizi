@@ -1,21 +1,9 @@
-class Api::V1::UsersController < ApplicationController
+class UsersController < ApplicationController
+	before_action :set_user, only: [:show, :update]
 
 	def index
 		@users = User.all
 		render json: @users
-	end
-
-	def login
-		@user = User.find_by(name: params[:name])
-		if @user
-			if@user.authenticate(params[:name])
-				render json: @user, status: :accepted
-			else
-				render json: @user.errors, status: :unauthorized
-			end
-		else
-			render json: @user, status: :not_found
-		end
 	end
 
 	def show
@@ -28,7 +16,19 @@ class Api::V1::UsersController < ApplicationController
 		if @user.save
 			render json: @user
 		else
-			render error: {error: 'Unable to create User!'}, status: 400
+			render json: {error: 'Unable to create User!'}, status: 400
+		end
+	end
+
+	def login
+		@user = User.find_by(name: params[:user][:name])
+		if @user
+			render json: @user, status: :accepted
+		# else
+		# 	render json: @user.errors, status: :unauthorized
+		# 	end
+		else
+			render json: @user, status: :not_found
 		end
 	end
 
@@ -36,7 +36,7 @@ class Api::V1::UsersController < ApplicationController
 		@user = User.find(params[:id])
 		if @user
 			@user.update(user_params)
-			render json: {message: 'Success'}, status: 200
+			render json: {message: 'User Updated'}, status: 200
 		else
 			render json: {error: 'Unable to update User!'}, status: 400
 		end
@@ -46,7 +46,7 @@ class Api::V1::UsersController < ApplicationController
 		@user = User.find(params[:id])
 		if @user
 			@user.destroy
-			render json: {message: 'Deleted'}, status: 200
+			render json: {message: 'User Deleted'}, status: 200
 		else
 			render json: {error: 'Unable to delete User!'}, status: 400
 		end
@@ -56,6 +56,10 @@ class Api::V1::UsersController < ApplicationController
 
 	def user_params
 		params.require(:user).permit(:name, :phoneNumber)
+	end
+
+	def set_user
+		@user = User.find(params[:id])
 	end
 
 end

@@ -23,7 +23,7 @@ handleSubmit = (event) => {
       name: name,
       phoneNumber: phoneNumber
     }
-		axios.post('http://localhost:3000/api/v1/users', {user}, {withCredentials: true})
+		axios.post('http://localhost:3000/users', {user}, {withCredentials: true})
     .then(response => {
       if (response.data.status === 'created') {
         this.props.handleSubmit(response.data)
