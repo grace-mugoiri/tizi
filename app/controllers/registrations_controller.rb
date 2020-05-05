@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  def login
+  def create
     user = User.create!(
       name: params['user']['name'],
       phoneNumber: params['name']['phoneNumber']

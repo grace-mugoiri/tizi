@@ -1,87 +1,70 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
-class SignUp extends Component {
-  constructor(props) {
+export default class Registration extends Component {
+	constructor(props) {
 		super(props);
-    this.state = {
-      name: '',
-      phoneNumber: '',
-      errors: ''
-     };
-  }
-handleChange = (event) => {
-    const {name, value} = event.target
-    this.setState({
-      [name]: value
-    })
-  };
-handleSubmit = (event) => {
-    event.preventDefault()
-    const {name, phoneNumber} = this.state
-    let user = {
-      name: name,
-      phoneNumber: phoneNumber
-    }
-		axios.post('http://localhost:3000/users', {user}, {withCredentials: true})
-    .then(response => {
-      if (response.data.status === 'created') {
-        this.props.handleSubmit(response.data)
-        this.redirect()
-      } else {
-        this.setState({
-          errors: response.data.errors
-        })
-      }
-    })
-    .catch(error => console.log('api errors:', error))
-};
+		this.state = {
+			name: "",
+			phoneNumber: "",
+			registrationErrors: ""
+		}
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+	}
 
-redirect = () => {
-    this.props.history.push('/login')
-  }
-handleErrors = () => {
-    return (
-      <div>
-        <ul>{this.state.errors.map((error) => {
-          return <li key={error}>{error}</li>
-        })}</ul>
-      </div>
-    )
-  }
-render() {
-    const {name, phoneNumber} = this.state
-return (
-      <div>
-        <h1>Sign Up</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input
-            placeholder="name"
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.handleChange.bind(this)}
-          />
-          <input
-            placeholder="phoneNumber"
-            type="text"
-            name="phoneNumber"
-            value={phoneNumber}
-            onChange={this.handleChange.bind(this)}
-          />
+	handleChange(event) {
+		this.setState({
+			[event.target.name]: event.target.value
+		})
+	}
 
-			<button placeholder="submit" type="submit">
-            Sign Up
-          </button>
+	handleSubmit(event) {
+		const {
+			name,
+			phoneNumber
+		} = this.state;
 
-        </form>
-        <div>
-          {
-            this.state.errors ? this.handleErrors() : null
-          }
-        </div>
-      </div>
-    );
-  }
+		axios.post("http://localhost:3000/registrations", {
+			user: {
+				name: name,
+				phoneNumber: phoneNumber,
+			}
+		},
+			{ withCredentials: true }
+		)
+			.then(response => {
+				if (response.data.status === 'created') {
+					this.props.handleSuccessfulAuth(response.data);
+				}
+			})
+			.catch(error => {
+				console.log("reg error", error);
+			})
+		event.preventDefault();
+	}
+	render() {
+		return (
+			<div>
+				<form onSubmit={this.handleSubmit}>
+					<input type="name"
+						name="name"
+						placeholder="name"
+						value={this.state.name}
+						onChange={this.handleChange} required
+					/>
+					<input type="phoneNumber"
+						name="phoneNumber"
+						placeholder="phoneNumber"
+						value={this.state.phoneNumber}
+						onChange={this.handleChange} required
+					/>
+
+					<button type='submit'>Register</button>
+				</form>
+			</div>
+		)
+	}
 }
-export default SignUp;
+
+
