@@ -25,7 +25,7 @@ export default class Registration extends Component {
 			phoneNumber
 		} = this.state;
 
-		axios.post("http://localhost:3000/registrations", {
+		axios.post("http://localhost:3000/users", {
 			user: {
 				name: name,
 				phoneNumber: phoneNumber,
